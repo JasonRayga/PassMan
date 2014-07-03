@@ -1,0 +1,49 @@
+<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.david.testapp.Overview">
+
+    <!-- As the main content view, the view below consumes the entire
+         space available using match_parent in both dimensions. -->
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_height="match_parent" android:orientation="vertical">
+
+	    <EditText
+		    android:id="@+id/form_name"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+		    android:hint="@string/string_name"
+		    android:inputType="text"
+		    android:maxLines="1"
+		    android:singleLine="true"/>
+
+	    <EditText
+		    android:id="@+id/form_password"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:hint="@string/string_password"
+		    android:inputType="textPassword"
+		    android:maxLines="1"
+		    android:singleLine="true"/>
+
+	</LinearLayout>
+
+    <fragment android:id="@+id/navigation_drawer"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="com.example.david.testapp.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

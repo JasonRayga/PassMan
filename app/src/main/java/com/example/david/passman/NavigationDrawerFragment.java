@@ -1,4 +1,4 @@
-package com.example.david.testapp;
+package com.example.david.passman;
 
 
 import android.app.Activity;
@@ -18,8 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.example.david.testapp.data.UserData;
-import com.example.david.testapp.data.UserDataSite;
+import com.example.david.passman.adapter.FontArrayAdapter;
+import com.example.david.passman.data.UserData;
+import com.example.david.passman.data.UserDataSite;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -75,7 +76,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        // selectItem(mCurrentSelectedPosition);
     }
 
     @Override
@@ -86,10 +87,8 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -97,23 +96,31 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-	    // get user data
-	    UserData userData = UserData.getInstance();
-	    String[] sites = new String[userData.sites.size()];
-	    int i = 0;
-	    for(UserDataSite site : userData.sites) {
-		    sites[i] = site.get_site();
-		    i++;
-	    }
+		updateItems(-1);
 
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-		        sites));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+		return mDrawerListView;
     }
+
+	public void updateItems(int selectedItemIndex) {
+		// get user data
+		UserData userData = UserData.getInstance();
+		String[] sites = new String[userData.sites.size()];
+		int i = 0;
+		for(UserDataSite site : userData.sites) {
+			sites[i] = site.get_site();
+			i++;
+		}
+
+		mDrawerListView.setAdapter(new FontArrayAdapter(
+				getActionBar().getThemedContext(),
+				R.layout.fragment_navigation_site_list_item,
+				sites));
+
+		if(selectedItemIndex > -1) {
+			// select item
+			mDrawerListView.setItemChecked(selectedItemIndex, true);
+		}
+	}
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
@@ -204,10 +211,7 @@ public class NavigationDrawerFragment extends Fragment {
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
-
-		// fire event callback
-
-    }
+	}
 
     @Override
     public void onAttach(Activity activity) {
@@ -251,17 +255,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        if (item.getItemId() == R.id.action_save) {
-            Toast.makeText(getActivity(), "Saved.", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+		return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+	}
 
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app

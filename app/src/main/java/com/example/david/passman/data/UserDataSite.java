@@ -1,4 +1,4 @@
-package com.example.david.testapp.data;
+package com.example.david.passman.data;
 
 public class UserDataSite {
 
@@ -16,6 +16,14 @@ public class UserDataSite {
 
 	public int get_id() {
 		return _id;
+	}
+
+	public void set_site(String _site) {
+		this._site = _site;
+	}
+
+	public void set_password(String _password) {
+		this._password = _password;
 	}
 
 	public UserDataSite(int id, String site, String password) {

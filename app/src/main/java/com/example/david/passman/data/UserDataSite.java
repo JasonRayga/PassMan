@@ -5,6 +5,7 @@ public class UserDataSite {
 	private String _site;
 	private String _password;
 	private int _id;
+	private String icon;
 
 	public String get_site() {
 		return _site;
@@ -16,6 +17,10 @@ public class UserDataSite {
 
 	public int get_id() {
 		return _id;
+	}
+
+	public String getIcon() {
+		return icon;
 	}
 
 	public void set_site(String _site) {

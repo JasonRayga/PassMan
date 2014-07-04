@@ -25,17 +25,29 @@
 			</LinearLayout>
 
 			<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
-				<EditText
-					android:id="@+id/form_sitename"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="8sp"
-					android:hint="@string/string_name"
-					android:inputType="textUri"
-					android:maxLines="1"
-					android:singleLine="true"/>
+
+				<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_marginBottom="8sp">
+
+					<Button
+						android:id="@+id/btn_icon" style="@android:style/Widget.Holo.Light.Button.Small"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:text="@string/icon_file" android:textSize="20sp"
+						android:layout_alignParentRight="true" android:layout_alignBottom="@+id/form_sitename" />
+
+					<EditText
+						android:id="@+id/form_sitename"
+						android:layout_alignParentLeft="true"
+						android:layout_centerVertical="true"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/string_name"
+						android:inputType="text"
+						android:maxLines="1"
+						android:singleLine="true" android:layout_toLeftOf="@+id/btn_icon"/>
+				</RelativeLayout>
 
 				<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+
 					<Button
 						android:id="@+id/btn_eye" style="@android:style/Widget.Holo.Light.Button.Small"
 						android:layout_width="wrap_content" android:layout_height="wrap_content"

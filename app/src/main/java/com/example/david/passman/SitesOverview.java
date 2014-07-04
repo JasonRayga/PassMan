@@ -48,6 +48,7 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 	private Boolean _setSiteNameFocus = false;
 	private EditText _formSitename;
 	private EditText _formPassword;
+	private Button _formSitenameIcon;
 	private UserData _userData;
 	Button btnEye;
 
@@ -65,8 +66,9 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		_navigationDrawerFragment.setUp(R.id.navigation_drawer, _drawerLayout);
 		//mTitle = getTitle();
 
-		_formSitename = (EditText) findViewById(R.id.form_sitename);
-		_formPassword = (EditText) findViewById(R.id.form_password);
+		_formSitename 		= (EditText) findViewById(R.id.form_sitename);
+		_formPassword 		= (EditText) findViewById(R.id.form_password);
+		_formSitenameIcon 	= (Button) findViewById(R.id.btn_icon);
 
 		Typeface font = Typeface.createFromAsset(getResources().getAssets(), "FontAwesome.otf");
 		btnEye = (Button)findViewById(R.id.btn_eye);
@@ -126,6 +128,8 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		if(_formSitename != null && _formPassword != null) {
 			_formSitename.setText(site.get_site(), TextView.BufferType.EDITABLE);
 			_formPassword.setText(site.get_password(), TextView.BufferType.EDITABLE);
+
+			//_formSitenameIcon.setText();
 		}
 	}
 

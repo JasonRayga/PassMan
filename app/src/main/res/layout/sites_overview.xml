@@ -9,7 +9,7 @@
 
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:paddingTop="@dimen/activity_horizontal_margin"
@@ -18,38 +18,48 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_height="match_parent" android:orientation="vertical">
 
-	    <EditText
-		    android:id="@+id/form_sitename"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginBottom="8sp"
-		    android:hint="@string/string_name"
-			android:inputType="textUri"
-			android:maxLines="1"
-		    android:singleLine="true"/>
+		<ViewSwitcher android:id="@+id/viewSwitcher" android:layout_width="match_parent" android:layout_height="match_parent">
 
-		<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<Button
-				android:id="@+id/btn_eye" style="@android:style/Widget.Holo.Light.Button.Small"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="@string/icon_eye" android:textSize="20sp"
-				android:layout_alignParentRight="true" android:layout_alignBottom="@+id/form_password" android:onClick="onTogglePassword"/>
+			<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+				<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Test"/>
+			</LinearLayout>
 
-			<EditText
-				android:id="@+id/form_password"
-				android:layout_alignParentLeft="true"
-				android:layout_centerVertical="true"
-				android:layout_toLeftOf="@+id/btn_eye"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:hint="@string/string_password"
-				android:inputType="textPassword"
-				android:maxLines="1"
-				android:singleLine="true"/>
+			<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+				<EditText
+					android:id="@+id/form_sitename"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8sp"
+					android:hint="@string/string_name"
+					android:inputType="textUri"
+					android:maxLines="1"
+					android:singleLine="true"/>
 
-		</RelativeLayout>
+				<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+					<Button
+						android:id="@+id/btn_eye" style="@android:style/Widget.Holo.Light.Button.Small"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:text="@string/icon_eye" android:textSize="20sp"
+						android:layout_alignParentRight="true" android:layout_alignBottom="@+id/form_password" android:onClick="onTogglePassword"/>
 
-	</LinearLayout>
+					<EditText
+						android:id="@+id/form_password"
+						android:layout_alignParentLeft="true"
+						android:layout_centerVertical="true"
+						android:layout_toLeftOf="@+id/btn_eye"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/string_password"
+						android:inputType="textPassword"
+						android:maxLines="1"
+						android:singleLine="true"/>
+
+				</RelativeLayout>
+			</LinearLayout>
+
+		</ViewSwitcher>
+
+	</RelativeLayout>
 
     <fragment android:id="@+id/navigation_drawer"
         android:layout_width="@dimen/navigation_drawer_width"

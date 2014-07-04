@@ -26,6 +26,10 @@ public class UserDataSite {
 		this._password = _password;
 	}
 
+	public UserDataSite(int id) {
+		_id = id;
+	}
+
 	public UserDataSite(int id, String site, String password) {
 		_id = id;
 		_site = site;

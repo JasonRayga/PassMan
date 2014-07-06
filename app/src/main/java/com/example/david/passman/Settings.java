@@ -163,7 +163,7 @@ public class Settings extends PreferenceActivity {
                     }
                 }
 
-            } else {
+            } else if(!preference.getKey().equals("master_password")) {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
                 preference.setSummary(stringValue);

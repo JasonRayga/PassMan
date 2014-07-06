@@ -1,5 +1,7 @@
 package com.example.david.passman.data;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
 public class UserData {
@@ -10,6 +12,7 @@ public class UserData {
 	}
 
 	public ArrayList<UserDataSite> sites = new ArrayList<UserDataSite>();
+	public UserDataSettings settings;
 
 	private UserData() {}
 
@@ -99,6 +102,14 @@ public class UserData {
 		}
 
 		return ++id;
+	}
+
+	public UserDataSettings updateSettings(SharedPreferences sp) {
+		String displayName = sp.getString("display_name", null);
+		String password = sp.getString("master_password", null);
+
+		settings = new UserDataSettings(displayName, password);
+		return settings;
 	}
 
 }

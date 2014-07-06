@@ -2,7 +2,9 @@ package com.example.david.passman;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,17 +17,20 @@ import java.util.ArrayList;
 
 public class Login extends Activity {
 
+	UserData userData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+
+	    setContentView(R.layout.login);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.global, menu);
+        // getMenuInflater().inflate(R.menu.global, menu);
         return true;
     }
 
@@ -45,9 +50,12 @@ public class Login extends Activity {
         EditText password = (EditText) findViewById(R.id.password);
         String passwordStr = password.getText().toString();
 
-		// TODO: get preferences to compare password
+	    // get users data from settings
+	    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+	    userData = UserData.getInstance();
+	    userData.updateSettings(sp);
 
-        if(passwordStr.equals("test")) {
+        if(passwordStr.equals(userData.settings.get_password())) {
 	        _readSites();
 
             Intent intent = new Intent(this, SitesOverview.class);

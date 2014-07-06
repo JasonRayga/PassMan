@@ -8,8 +8,4 @@
         android:title="@string/string_delete"
         android:orderInCategory="100"
         android:showAsAction="never" />
-	<item android:id="@+id/action_settings"
-        android:title="@string/string_settings"
-        android:orderInCategory="200"
-        android:showAsAction="never" />
 </menu>

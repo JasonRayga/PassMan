@@ -6,21 +6,23 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.method.KeyListener;
 import android.text.method.PasswordTransformationMethod;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.support.v4.widget.DrawerLayout;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.example.david.passman.data.FileReader;
 import com.example.david.passman.data.UserData;
 import com.example.david.passman.data.UserDataSite;
+import com.example.david.passman.helper.FontHelper;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SitesOverview extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -48,6 +50,7 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 	private Boolean _setSiteNameFocus = false;
 	private EditText _formSitename;
 	private EditText _formPassword;
+	private EditText _formUsername;
 	private Button _formSitenameIcon;
 	private UserData _userData;
 	Button btnEye;
@@ -66,14 +69,25 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		_navigationDrawerFragment.setUp(R.id.navigation_drawer, _drawerLayout);
 		//mTitle = getTitle();
 
+	    // assign form members
 		_formSitename 		= (EditText) findViewById(R.id.form_sitename);
-		_formPassword 		= (EditText) findViewById(R.id.form_password);
-		_formSitenameIcon 	= (Button) findViewById(R.id.btn_icon);
+	    _formSitenameIcon 	= (Button) findViewById(R.id.btn_icon);
+	    _formPassword 		= (EditText) findViewById(R.id.form_password);
+	    _formUsername 		= (EditText) findViewById(R.id.form_username);
 
-		Typeface font = Typeface.createFromAsset(getResources().getAssets(), "FontAwesome.otf");
+	    // set icon font for eye-button
 		btnEye = (Button)findViewById(R.id.btn_eye);
-		btnEye.setTypeface(font);
+	    FontHelper.setIconFont(btnEye);
 
+	    // change icon as soon as focus changes
+	    _formSitename.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		    @Override
+		    public void onFocusChange(View view, boolean b) {
+			    _formSitenameIcon.setText(FontHelper.getInstance().getIcon(_formSitename.getText().toString()));
+		    }
+	    });
+
+	    // set appname as action bar title
 		ActionBar actionBar = getActionBar();
 		if(actionBar != null) {
 			actionBar.setTitle(getString(R.string.string_app_name));
@@ -116,26 +130,36 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		_hideSoftKeyboard();
 	}
 
+	public void setAction(int action) {
+		_currentAction = action;
+
+		invalidateOptionsMenu();
+	}
+
 	private void _fillForm(int index) {
 		// set action
-		_currentAction = ACTION_EDIT;
+		setAction(ACTION_EDIT);
 
 		// get site data
 		UserDataSite site = _userData.getSiteByIndex(index);
 		_currentSite = site;
 
 		// fill form
-		if(_formSitename != null && _formPassword != null) {
-			_formSitename.setText(site.get_site(), TextView.BufferType.EDITABLE);
-			_formPassword.setText(site.get_password(), TextView.BufferType.EDITABLE);
+		if(_formSitename != null && _formPassword != null && _formUsername != null) {
+			_formSitename.setText(site.get_site());
+			_formPassword.setText(site.get_password());
+			_formUsername.setText(site.get_username());
 
-			//_formSitenameIcon.setText();
+			FontHelper.setIconFont(_formSitenameIcon);
+			_formSitenameIcon.setText(FontHelper.getInstance().getIcon(site.get_site()));
 		}
 	}
 
 	private void _resetForm() {
 		_formSitename.setText("");
+		_formSitenameIcon.setText(FontHelper.getInstance().getIcon(""));
 		_formPassword.setText("");
+		_formUsername.setText("");
 	}
 
     public void onSectionAttached(int number) {
@@ -155,24 +179,19 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!_navigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
+	    getMenuInflater().inflate(R.menu.global, menu);
+
+        if (!_navigationDrawerFragment.isDrawerOpen() && (_viewSwitcher.getDisplayedChild() != VIEW_OVERVIEW || _currentAction == ACTION_NEW)) {
             getMenuInflater().inflate(R.menu.sites_overview, menu);
-            //restoreActionBar();
         } else {
 			getMenuInflater().inflate(R.menu.navigation_drawer, menu);
 		}
-		//return super.onCreateOptionsMenu(menu);
+
 		return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
 		switch(id) {
@@ -182,18 +201,23 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 				return _deleteSiteAction();
 			case R.id.action_add:
 				return _addNewSiteAction();
+			case R.id.action_settings:
+				Intent intent = new Intent(this, Settings.class);
+				startActivity(intent);
+				return true;
 		}
 
-	    return id == R.id.action_settings || super.onOptionsItemSelected(item);
+	    return super.onOptionsItemSelected(item);
     }
 
 	private Boolean _saveSiteAction() {
 		String sitename = _formSitename.getText().toString();
 		String password = _formPassword.getText().toString();
+		String username = _formUsername.getText().toString();
 
 		// validate form
-		if(sitename.equals("") || password.equals("")) {
-			Toast.makeText(this, "Please enter a Sitename and a Password.", Toast.LENGTH_SHORT).show();
+		if(sitename.equals("") || password.equals("") || username.equals("")) {
+			Toast.makeText(this, "Please enter a Sitename, a Password and a Username.", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 
@@ -202,19 +226,36 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		if(_currentAction == ACTION_NEW) {
 			// initiualize new site
 			int id = _userData.getNewId();
-			_currentSite = _userData.addSite(id, sitename, password);
+			_currentSite = _userData.addSite(id, sitename, password, username);
 		} else if(_currentAction == ACTION_EDIT) {
 			// update site
 			_currentSite.set_site(sitename);
 			_currentSite.set_password(password);
+			_currentSite.set_username(username);
 		}
+
+
+		// sort values by name
+		Collections.sort(_userData.sites, new Comparator<UserDataSite>() {
+			@Override
+			public int compare(UserDataSite a, UserDataSite b) {
+				String siteA = a.get_site();
+				String siteB = b.get_site();
+
+				// ascending order
+				return siteA.compareTo(siteB);
+
+				// descending order
+				//return id2.compareTo(id1);
+			}
+		});
 
 		int i = 0;
 		int itemIndex = 0;
 		// parse sites
 		for(UserDataSite site : _userData.sites) {
 			if(i != 0) dataStr += "\n";
-			dataStr += site.get_id() +","+ site.get_site() +","+ site.get_password();
+			dataStr += site.get_id() +","+ site.get_site() +","+ site.get_password() +","+ site.get_username();
 
 			if(site.get_id() == _currentSite.get_id()) {
 				itemIndex = i;
@@ -224,8 +265,8 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		}
 
 		// write
-		FileReader fileReader = new FileReader(this);
-		fileReader.write("sites", dataStr);
+		FileReader fileReader = new FileReader(this, FileReader.SITES);
+		fileReader.write(dataStr);
 
 		// hide keyboard
 		_hideSoftKeyboard();
@@ -236,7 +277,7 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		// update navigation fragment
 		_navigationDrawerFragment.updateItems(itemIndex);
 
-		_currentAction = ACTION_EDIT;
+		setAction(ACTION_EDIT);
 
 		return true;
 	}
@@ -251,14 +292,14 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		// parse sites
 		for(UserDataSite site : _userData.sites) {
 			if(i != 0) dataStr += "\n";
-			dataStr += site.get_id() +","+ site.get_site() +","+ site.get_password();
+			dataStr += site.get_id() +","+ site.get_site() +","+ site.get_password() +","+ site.get_username();
 
 			i++;
 		}
 
 		// write
-		FileReader fileReader = new FileReader(this);
-		fileReader.write("sites", dataStr);
+		FileReader fileReader = new FileReader(this, FileReader.SITES);
+		fileReader.write(dataStr);
 
 		// message
 		Toast.makeText(this, "Deleted.", Toast.LENGTH_SHORT).show();
@@ -276,7 +317,7 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 
 	private Boolean _addNewSiteAction() {
 		// set action
-		_currentAction = ACTION_NEW;
+		setAction(ACTION_NEW);
 
 		// deselect navigation drawer
 		_navigationDrawerFragment.deselectItems();
@@ -287,9 +328,13 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		// switch to form
 		_viewSwitcher.setDisplayedChild(VIEW_FORM);
 
-		// close drawer, set focus in onNavigationDrawerClosed() callback
 		_setSiteNameFocus = true;
-		_drawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
+		if(_navigationDrawerFragment.isDrawerOpen()) {
+			// close drawer, set focus in onNavigationDrawerClosed() callback
+			_drawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
+		} else {
+			onNavigationDrawerClosed();
+		}
 
 		return true;
 	}
@@ -298,6 +343,7 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 		// remove focus
 		_formSitename.clearFocus();
 		_formPassword.clearFocus();
+		_formUsername.clearFocus();
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(_formSitename.getWindowToken(), 0);

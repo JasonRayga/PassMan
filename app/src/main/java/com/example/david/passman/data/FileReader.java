@@ -3,22 +3,29 @@ package com.example.david.passman.data;
 import android.content.Context;
 import android.content.ContextWrapper;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FileReader extends ContextWrapper {
 
-	public FileReader(Context base) {
+	public final static String SITES = "sites";
+
+	private String _filename;
+
+	public FileReader(Context base, String filename) {
 		super(base);
+		_filename = filename;
 	}
 
-	public void write(String filename, String data) {
+	public Boolean fileExists() {
+		File f = new File(_filename);
+		return f.exists() && !f.isDirectory();
+	}
+
+	public void write(String data) {
 		// write file
 		try {
-			FileOutputStream fs = openFileOutput(filename, Context.MODE_PRIVATE);
+			FileOutputStream fs = openFileOutput(_filename, Context.MODE_PRIVATE);
 			fs.write(data.getBytes());
 			fs.close();
 		} catch (Exception e) {
@@ -26,26 +33,25 @@ public class FileReader extends ContextWrapper {
 		}
 	}
 
-	public ArrayList<String> read(String filename) {
+	public ArrayList<String> read() {
 		try {
-			InputStreamReader stream = null;
+			InputStreamReader stream;
 			try {
-				stream = new InputStreamReader(openFileInput(filename));
+				stream = new InputStreamReader(openFileInput(_filename));
 			} catch (Exception e) {
-				e.printStackTrace();
+				write("");
+				stream = new InputStreamReader(openFileInput(_filename));
 			}
 
-			if(stream != null) {
-				BufferedReader inputReader = new BufferedReader(stream);
-				String inputString;
-				ArrayList<String> values = new ArrayList<String>();
+			BufferedReader inputReader = new BufferedReader(stream);
+			String inputString;
+			ArrayList<String> values = new ArrayList<String>();
 
-				while ((inputString = inputReader.readLine()) != null) {
-					values.add(inputString);
-				}
-
-				return values;
+			while ((inputString = inputReader.readLine()) != null) {
+				values.add(inputString);
 			}
+
+			return values;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

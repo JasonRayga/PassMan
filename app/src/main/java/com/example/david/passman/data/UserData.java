@@ -18,29 +18,44 @@ public class UserData {
 	}
 
 	public UserDataSite addSite(String[] siteArray) {
-		int id;
-		String site;
-		String password;
+		int id = 0;
+		String site = "";
+		String password = "";
+		String username = "";
 
 		try {
-			id 		 = Integer.parseInt(siteArray[0]);
-			site 	 = siteArray[1];
-			password = siteArray[2];
+			id = Integer.parseInt(siteArray[0]);
 		} catch(Exception e) {
-			throw new RuntimeException(e);
+			throw  new RuntimeException(e);
 		}
 
+		try {
+			site = siteArray[1];
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 
+		try {
+			password = siteArray[2];
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 
-		UserDataSite siteObj = new UserDataSite(id, site, password);
+		try {
+			username = siteArray[3];
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		UserDataSite siteObj = new UserDataSite(id, site, password, username);
 
 		sites.add(siteObj);
 
 		return siteObj;
 	}
 
-	public UserDataSite addSite(int id, String site, String password) {
-		String[] values = { Integer.toString(id), site, password };
+	public UserDataSite addSite(int id, String site, String password, String username) {
+		String[] values = { Integer.toString(id), site, password, username };
 
 		return addSite(values);
 	}

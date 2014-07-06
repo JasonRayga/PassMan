@@ -10,6 +10,7 @@
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
     <RelativeLayout
+	    android:clickable="true"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:paddingTop="@dimen/activity_horizontal_margin"
@@ -40,11 +41,21 @@
 						android:layout_centerVertical="true"
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:hint="@string/string_name"
+						android:hint="@string/string_sitename"
 						android:inputType="text"
 						android:maxLines="1"
 						android:singleLine="true" android:layout_toLeftOf="@+id/btn_icon"/>
 				</RelativeLayout>
+
+				<EditText
+					android:layout_marginBottom="8sp"
+					android:id="@+id/form_username"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/string_username"
+					android:inputType="text"
+					android:maxLines="1"
+					android:singleLine="true"/>
 
 				<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
 

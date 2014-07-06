@@ -16,20 +16,11 @@
 	<!-- FORMS -->
 	<string name="string_email">E-Mail...</string>
 	<string name="string_password">Password...</string>
-	<string name="string_name">Sitename...</string>
+	<string name="string_sitename">Sitename...</string>
+	<string name="string_username">Username...</string>
 
 	<!-- ICONS -->
-	<string name="icon_folder">&#xf07b;</string>
 	<string name="icon_file">&#xf016;</string>
 	<string name="icon_eye">&#xf06e;</string>
-
-	<!-- BRAND ICONS -->
-	<string name="icon_google">&#xf1a0;</string>
-	<string name="icon_facebook">&#xf09a;</string>
-	<string name="icon_dropbox">&#xf16b;</string>
-	<string name="icon_soundcloud">&#xf1be;</string>
-	<string name="icon_twitter">&#xf099;</string>
-	<string name="icon_youtube">&#xf167;</string>
-	<string name="icon_android">&#xf17b;</string>
 
 </resources>

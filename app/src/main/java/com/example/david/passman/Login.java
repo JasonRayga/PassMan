@@ -45,6 +45,8 @@ public class Login extends Activity {
         EditText password = (EditText) findViewById(R.id.password);
         String passwordStr = password.getText().toString();
 
+		// TODO: get preferences to compare password
+
         if(passwordStr.equals("test")) {
 	        _readSites();
 

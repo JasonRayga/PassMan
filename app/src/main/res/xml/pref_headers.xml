@@ -6,9 +6,9 @@
         android:fragment="com.example.david.passman.Settings$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
-    <header
+    <!--<header
         android:fragment="com.example.david.passman.Settings$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" />
+        android:title="@string/pref_header_notifications" />-->
 
     <header
         android:fragment="com.example.david.passman.Settings$DataSyncPreferenceFragment"

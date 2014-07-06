@@ -179,13 +179,13 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-	    getMenuInflater().inflate(R.menu.global, menu);
-
         if (!_navigationDrawerFragment.isDrawerOpen() && (_viewSwitcher.getDisplayedChild() != VIEW_OVERVIEW || _currentAction == ACTION_NEW)) {
             getMenuInflater().inflate(R.menu.sites_overview, menu);
         } else {
 			getMenuInflater().inflate(R.menu.navigation_drawer, menu);
 		}
+
+	    getMenuInflater().inflate(R.menu.global, menu);
 
 		return true;
     }

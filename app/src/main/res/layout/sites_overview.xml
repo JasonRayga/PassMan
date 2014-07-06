@@ -32,7 +32,8 @@
 					<Button
 						android:id="@+id/btn_icon" style="@android:style/Widget.Holo.Light.Button.Small"
 						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:text="@string/icon_file" android:textSize="20sp"
+						android:text="@string/icon_file" android:textSize="30sp"
+						android:background="@android:color/transparent"
 						android:layout_alignParentRight="true" android:layout_alignBottom="@+id/form_sitename" />
 
 					<EditText

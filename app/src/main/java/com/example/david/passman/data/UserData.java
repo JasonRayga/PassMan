@@ -105,8 +105,8 @@ public class UserData {
 	}
 
 	public UserDataSettings updateSettings(SharedPreferences sp) {
-		String displayName = sp.getString("display_name", null);
-		String password = sp.getString("master_password", null);
+		String displayName = sp.getString("display_name", "John Doe");
+		String password = sp.getString("master_password", "test");
 
 		settings = new UserDataSettings(displayName, password);
 		return settings;

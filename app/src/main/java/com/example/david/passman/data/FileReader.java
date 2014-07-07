@@ -3,7 +3,12 @@ package com.example.david.passman.data;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.io.*;
+import java.security.Security;
 import java.util.ArrayList;
 
 public class FileReader extends ContextWrapper {
@@ -25,6 +30,9 @@ public class FileReader extends ContextWrapper {
 	public void write(String data) {
 		// write file
 		try {
+
+			// TODO: encrypt data like https://gist.github.com/bricef/2436364
+
 			FileOutputStream fs = openFileOutput(_filename, Context.MODE_PRIVATE);
 			fs.write(data.getBytes());
 			fs.close();

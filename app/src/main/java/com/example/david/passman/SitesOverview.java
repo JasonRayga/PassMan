@@ -75,6 +75,9 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 	    _formPassword 		= (EditText) findViewById(R.id.form_password);
 	    _formUsername 		= (EditText) findViewById(R.id.form_username);
 
+        // font icon font for sitename icon
+        FontHelper.setIconFont(_formSitenameIcon);
+
 	    // set icon font for eye-button
 		btnEye = (Button)findViewById(R.id.btn_eye);
 	    FontHelper.setIconFont(btnEye);
@@ -150,7 +153,6 @@ public class SitesOverview extends Activity implements NavigationDrawerFragment.
 			_formPassword.setText(site.get_password());
 			_formUsername.setText(site.get_username());
 
-			FontHelper.setIconFont(_formSitenameIcon);
 			_formSitenameIcon.setText(FontHelper.getInstance().getIcon(site.get_site()));
 		}
 	}

@@ -29,24 +29,25 @@
 
 				<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_marginBottom="16sp">
 
-					<Button
-						android:id="@+id/btn_icon" style="@android:style/Widget.Holo.Light.Button.Small"
-						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:text="@string/icon_file" android:textSize="30sp"
-						android:background="@android:color/transparent"
-						android:layout_alignParentRight="true" android:layout_alignBottom="@+id/form_sitename" />
-
 					<EditText
 						android:id="@+id/form_sitename"
 						android:layout_alignParentLeft="true"
 						android:layout_centerVertical="true"
+						android:paddingLeft="46sp"
 						android:layout_width="fill_parent"
 						android:textStyle="bold"
 						android:layout_height="wrap_content"
 						android:hint="@string/string_sitename"
 						android:inputType="text"
 						android:maxLines="1"
-						android:singleLine="true" android:layout_toLeftOf="@+id/btn_icon"/>
+						android:singleLine="true"/>
+
+					<Button
+						android:id="@+id/btn_icon" style="@android:style/Widget.Holo.Light.Button.Small"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:text="@string/icon_file" android:textSize="24sp"
+						android:background="@android:color/transparent"
+						android:layout_alignBottom="@+id/form_sitename" />
 				</RelativeLayout>
 
 				<EditText

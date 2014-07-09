@@ -1,6 +1,7 @@
 package com.example.david.passman.data;
 
 import android.content.SharedPreferences;
+import com.example.david.passman.encryption.RandomGenerator;
 
 import java.util.ArrayList;
 
@@ -105,10 +106,11 @@ public class UserData {
 	}
 
 	public UserDataSettings updateSettings(SharedPreferences sp) {
-		String displayName = sp.getString("display_name", "John Doe");
-		String password = sp.getString("master_password", "test");
+		String displayName      = sp.getString("display_name", "John Doe");
+		String password         = sp.getString("master_password", "test");
+		String encryptionKey    = sp.getString("encryption_key", RandomGenerator.getInstance().get(32));
 
-		settings = new UserDataSettings(displayName, password);
+		settings = new UserDataSettings(displayName, password, encryptionKey);
 		return settings;
 	}
 

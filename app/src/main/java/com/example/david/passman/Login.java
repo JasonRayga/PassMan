@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import com.example.david.passman.data.FileReader;
 import com.example.david.passman.data.UserData;
+import com.example.david.passman.encryption.AES;
 
 import java.util.ArrayList;
 
@@ -54,6 +55,14 @@ public class Login extends Activity {
 	    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 	    userData = UserData.getInstance();
 	    userData.updateSettings(sp);
+
+	    // encrypt something
+	    try {
+		    byte[] cipher = AES.encrypt("facebook.com");
+		    String decrypted = AES.decrypt(cipher);
+	    } catch (Exception e) {
+		    e.printStackTrace();
+	    }
 
         if(passwordStr.equals(userData.settings.get_password())) {
 	        _readSites();
